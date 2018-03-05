@@ -65,26 +65,38 @@ function chooseTask() {
     console.log(`Enter 3 to deposit funds.`);
     console.log(`Enter 4 to transfer funds.`)
     taskChosen = Number(PROMPT.question(`What would you like to do? `));
-    if (taskChosen === 0) {
-        console.log(`Exiting...`);
-        continueResponse = 0;
-    } else if (taskChosen === 1) {
-        process.stdout.write(`\x1Bc`);
-        checkBalance();
-    } else if (taskChosen === 2) {
-        process.stdout.write(`\x1Bc`);
-        withdrawFunds();
-    } else if (taskChosen === 3) {
-        process.stdout.write(`\x1Bc`);
-        depositFunds();
-    } else if (taskChosen === 4) {
-        process.stdout.write(`\x1Bc`);
-        transferFunds();
-    } else {
-        console.log(`Invalid option, try again.`);
-        process.stdout.write(`\x1Bc`);
-        return chooseTask();
-    }
+	switch(taskChosen) {
+		case 0:
+		    console.log(`Exiting...`);
+			continueResponse = 0;
+			break;
+		
+		case 1:
+			process.stdout.write(`\x1Bc`);
+			checkBalance();
+			break;
+		
+		case 2:
+			process.stdout.write(`\x1Bc`);
+			withdrawFunds();
+			break;
+		
+		case 3:
+			process.stdout.write(`\x1Bc`);
+			depositFunds();
+			break;
+		
+		case 4:
+			process.stdout.write(`\x1Bc`);
+			transferFunds();
+			break;
+			
+		default:
+		    console.log(`Invalid option, try again.`);
+			process.stdout.write(`\x1Bc`);
+			return chooseTask();
+			break;
+	}
 }
 
 /**
@@ -98,22 +110,28 @@ function checkBalance() {
     console.log(`Enter 1 for checking balance.`);
     console.log(`Enter 2 for savings balance.`);
     checkSave = Number(PROMPT.question(`Enter(1 or 2): `));
-    if (checkSave ==0) {
-        console.log(`Exiting...`);
-        continueResponse = 0;
-    }
-    if (checkSave == 1) {
-        process.stdout.write(`\x1Bc`);
-        console.log(`${cardNames[currentLocation]}, your checking balance is \$${checkingBalance[currentLocation]}.`);
-    } else if (checkSave == 2) {
-        process.stdout.write(`\x1Bc`);
-        console.log(`${cardNames[currentLocation]}, your savings balance is \$${savingsBalance[currentLocation]}.`);
-    } else {
-        console.log(`Invalid option, try again.`);
-        process.stdout.write(`\x1Bc`);
-        return checkBalance;
-    }
-
+	switch(checkSave) {
+		case 0:
+			console.log(`Exiting...`);
+			continueResponse = 0;
+			break;
+		
+		case 1:
+			process.stdout.write(`\x1Bc`);
+			console.log(`${cardNames[currentLocation]}, your checking balance is \$${checkingBalance[currentLocation]}.`);
+			break;
+		
+		case 2:
+			process.stdout.write(`\x1Bc`);
+			console.log(`${cardNames[currentLocation]}, your savings balance is \$${savingsBalance[currentLocation]}.`);
+			break;
+			
+		default:
+		    console.log(`Invalid option, try again.`);
+			process.stdout.write(`\x1Bc`);
+			return checkBalance;
+			break;
+	}
 }
 
 /**
@@ -129,35 +147,43 @@ function withdrawFunds() {
     console.log(`Enter 1 to withdraw from checking.`);
     console.log(`Enter 2 to withdraw from savings.`);
     checkSave = Number(PROMPT.question(`Enter(1 or 2): `));
-    if (checkSave == 0) {
+    switch(checkSave) {
+      case 0:
         console.log(`Exiting...`);
         continueResponse = 0;
-    } else if (checkSave == 1) {
+        break;
+
+      case 1:
         withdrawAmnt = Number(PROMPT.question(`Enter withdrawal amount: `));
         if (validateAmount(withdrawAmnt)) {
-            process.stdout.write(`\x1Bc`);
-            checkingBalance[currentLocation] -= withdrawAmnt;
-            console.log(`Funds withdrawn. Current Balance: \$${checkingBalance[currentLocation]}`);
+          process.stdout.write(`\x1Bc`);
+          checkingBalance[currentLocation] -= withdrawAmnt;
+          console.log(`Funds withdrawn. Checking Balance: \$${checkingBalance[currentLocation]}`);
+        } else {
+          console.log(`Invalid amount, try again.`);
+          process.stdout.write(`\x1Bc`);
+          return withdrawFunds();
+        }
+        break;
+
+      case 2:
+        withdrawAmnt = Number(PROMPT.question(`Enter withdrawal amount: `));
+        if (validateAmount(withdrawAmnt)) {
+          process.stdout.write(`\x1Bc`);
+          savingsBalance[currentLocation] -= withdrawAmnt;
+          console.log(`Funds withdrawn. Savings Balance: \$${savingsBalance[currentLocation]}`);
         } else {
             console.log(`Invalid amount, try again.`);
             process.stdout.write(`\x1Bc`);
             return withdrawFunds();
         }
-    } else if (checkSave == 2) {
-        withdrawAmnt = Number(PROMPT.question(`Enter withdrawal amount: `));
-        if (validateAmount(withdrawAmnt)) {
-            process.stdout.write(`\x1Bc`);
-            savingsBalance[currentLocation] -= withdrawAmnt;
-            console.log(`Funds withdrawn. Current Balance: \$${savingsBalance[currentLocation]}`);
-        } else {
-            console.log(`Invalid amount, try again.`);
-            process.stdout.write(`\x1Bc`);
-            return withdrawFunds();
-        }
-    } else {
+        break;
+
+      default:
         console.log(`Invalid option, try again.`);
         process.stdout.write(`\x1Bc`);
         return withdrawFunds();
+        break;
     }
 }
 
@@ -174,22 +200,28 @@ function transferFunds() {
     console.log(`Enter 1 to transfer from your checking to savings.`);
     console.log(`Enter 2 to transfer from your savings to your checking.`);
     checkSave = Number(PROMPT.question(`Enter(1 or 2): `));
-    if (checkSave == 0) {
-        console.log(`Exiting...`);
-        continueResponse = 0;
-    } else if (checkSave == 1) {
-        transferAmnt = Number(PROMPT.question(`Enter the amount to transfer: `));
-        if (validateAmount(transferAmnt)) {
-            process.stdout.write(`\x1Bc`);
-            checkingBalance[currentLocation] -= transferAmnt;
-            savingsBalance[currentLocation] += transferAmnt;
-            console.log(`Funds transfered. \nChecking Balance: \$${checkingBalance[currentLocation]} \nSavings Balance: \$${savingsBalance[currentLocation]}`);
-        } else {
-            console.log(`Invalid amount, try again.`);
-            process.stdout.write(`\x1Bc`);
-            return transferFunds();
+    switch(checkSave) {
+      case 0:
+          console.log(`Exiting...`);
+          continueResponse = 0;
+      break;
+
+      case 1:
+          transferAmnt = Number(PROMPT.question(`Enter the amount to transfer: `));
+          if (validateAmount(transferAmnt)) {
+               process.stdout.write(`\x1Bc`);
+               checkingBalance[currentLocation] -= transferAmnt;
+               savingsBalance[currentLocation] += transferAmnt;
+               console.log(`Funds transfered. \nChecking Balance: \$${checkingBalance[currentLocation]} \nSavings Balance: \$${savingsBalance[currentLocation]}`);
+          } else {
+
+          console.log(`Invalid amount, try again.`);
+          process.stdout.write(`\x1Bc`);
+          return transferFunds();
         }
-    } else if (checkSave == 2) {
+      break;
+
+      case 2:
         transferAmnt = Number(PROMPT.question(`Enter the amount to transfer: `));
         if (validateAmount(transferAmnt)) {
             process.stdout.write(`\x1Bc`);
@@ -201,10 +233,13 @@ function transferFunds() {
             process.stdout.write(`\x1Bc`);
             return transferFunds();
         }
-    } else {
-        console.log(`Invalid option, try again.`)
-        process.stdout.write(`\x1Bc`);
-        return transferFunds();
+      break;
+
+      default:
+          console.log(`Invalid option, try again.`)
+          process.stdout.write(`\x1Bc`);
+          return transferFunds();
+      break;
     }
 }
 
@@ -221,35 +256,43 @@ function depositFunds() {
     console.log(`Enter 1 to deposit into checking.`);
     console.log(`Enter 2 to deposit into savings.`);
     checkSave = Number(PROMPT.question(`Enter(1 or 2): `));
-    if (checkSave == 0) {
-        console.log(`Exiting...`);
-        continueResponse = 0;
-    } else if (checkSave == 1) {
-        depositAmnt = Number(PROMPT.question(`Enter the amount to deposit: `));
-        if (validateAmount(depositAmnt)) {
-            checkingBalance[currentLocation] += depositAmnt;
-            process.stdout.write(`\x1Bc`);
-            console.log(`Funds deposited. Current Balance: \$${checkingBalance[currentLocation]}`);
-        } else {
-            console.log(`Invalid amount, try again.`);
-            process.stdout.write(`\x1Bc`);
-            return depositFunds();
-        }
-    } else if (checkSave == 2) {
-        depositAmnt = Number(PROMPT.question(`Enter the amount to deposit: `));
-        if (validateAmount(depositAmnt)) {
-            savingsBalance[currentLocation] += depositAmnt;
-            process.stdout.write(`\x1Bc`);
-            console.log(`Funds deposited. Current Balance: \$${savingsBalance[currentLocation]}`);
-        } else {
-            console.log(`Invalid amount, try again.`);
-            process.stdout.write(`\x1Bc`);
-            return depositFunds();
-        }
-    } else {
-        console.log(`Invalid option, try again.`);
-        process.stdout.write(`\x1Bc`);
-        return depositFunds();
+    switch(checkSave) {
+         case 0:
+            console.log(`Exiting...`);
+            continueResponse = 0;
+         break;
+
+         case 1:
+			depositAmnt = Number(PROMPT.question(`Enter the amount to deposit: `));
+			if (validateAmount(depositAmnt)) {
+				checkingBalance[currentLocation] += depositAmnt;
+				process.stdout.write(`\x1Bc`);
+				console.log(`Funds deposited. Current Balance: \$${checkingBalance[currentLocation]}`);
+			} else {
+				console.log(`Invalid amount, try again.`);
+				process.stdout.write(`\x1Bc`);
+				return depositFunds();
+			}
+			break;
+
+         case 2:
+			depositAmnt = Number(PROMPT.question(`Enter the amount to deposit: `));
+				if (validateAmount(depositAmnt)) {
+					savingsBalance[currentLocation] += depositAmnt;
+					process.stdout.write(`\x1Bc`);
+					console.log(`Funds deposited. Current Balance: \$${savingsBalance[currentLocation]}`);
+				} else {
+					console.log(`Invalid amount, try again.`);
+					process.stdout.write(`\x1Bc`);
+					return depositFunds();
+				}
+				break;
+
+         default:
+			console.log(`Invalid option, try again.`);
+			process.stdout.write(`\x1Bc`);
+			return depositFunds();
+			break;
     }
 }
 

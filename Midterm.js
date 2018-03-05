@@ -14,7 +14,7 @@ let cardNumbers = [666666, 777777],
     savingsBalance = [1000.00, 1000.00];
 
 let cardNames = ["Jonas", "Brock"];
-let currentLocation, currentCard, currentPin, continueResponse, taskChosen, loggingIn = 0, loggedIn = 0;
+let currentLocation, currentCard, currentPin, continueResponse, taskChosen, loggingIn, loggedIn;
 let currentName;
 
 /**
